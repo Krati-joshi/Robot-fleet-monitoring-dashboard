@@ -57,6 +57,10 @@ def load_fake_data():
         logging.error(f"Unexpected error while loading data: {e}")
         return []
 
+@app.get("/")
+def read_root():
+    return {"message": "Robot Fleet Monitoring API is up and running!"}
+
 @app.get("/robots", response_model=List[Robot])
 def get_robots():
     try:
