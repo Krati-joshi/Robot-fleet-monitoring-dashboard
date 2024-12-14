@@ -61,6 +61,10 @@ def load_fake_data():
 def read_root():
     return {"message": "Robot Fleet Monitoring API is up and running!"}
 
+@app.head("/")
+def head_root():
+    return {}
+
 @app.get("/robots", response_model=List[Robot])
 def get_robots():
     try:
