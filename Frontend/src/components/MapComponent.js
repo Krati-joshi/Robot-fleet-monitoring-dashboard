@@ -23,11 +23,6 @@ function MapComponent({ robots }) {
       const latitudes = robots.map(robot => robot.location_coordinates[0]);
       const longitudes = robots.map(robot => robot.location_coordinates[1]);
 
-      const bounds = [
-        [Math.min(...latitudes), Math.min(...longitudes)],
-        [Math.max(...latitudes), Math.max(...longitudes)]
-      ];
-
       setCenter([ 
         (Math.min(...latitudes) + Math.max(...latitudes)) / 2, 
         (Math.min(...longitudes) + Math.max(...longitudes)) / 2 
