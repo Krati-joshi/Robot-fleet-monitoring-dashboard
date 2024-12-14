@@ -1,10 +1,11 @@
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 from datetime import datetime
 import json
 import asyncio
+import logging
 
 app = FastAPI()
 
@@ -16,6 +17,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+logging.basicConfig(level=logging.INFO)
 
 class Robot(BaseModel):
     robot_id: str
@@ -46,17 +48,25 @@ def load_fake_data():
                 robot['location_coordinates'] = list(robot.pop('Location Coordinates'))
             return data
     except FileNotFoundError:
-        print("Error: fake_robot_data.json not found.")
+        logging.error("Error: fake_robot_data.json not found.")
         return []
     except json.JSONDecodeError:
-        print("Error: JSON decoding error.")
+        logging.error("Error: JSON decoding error.")
+        return []
+    except Exception as e:
+        logging.error(f"Unexpected error while loading data: {e}")
         return []
 
 @app.get("/robots", response_model=List[Robot])
 def get_robots():
-    robots = load_fake_data()
-    robots = convert_datetime_to_string(robots)
-    return robots
+    try:
+        robots = load_fake_data()
+        if not robots:
+            raise HTTPException(status_code=404, detail="No robot data available")
+        robots = convert_datetime_to_string(robots)
+        return robots
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.websocket("/ws/robots")
 async def websocket_endpoint(websocket: WebSocket):
@@ -64,15 +74,18 @@ async def websocket_endpoint(websocket: WebSocket):
     while True:
         try:
             robots = load_fake_data()
+            if not robots:
+                await websocket.send_json({"error": "No robot data available"})
+                break
             robots = convert_datetime_to_string(robots)
             await websocket.send_json(robots)
             await asyncio.sleep(5)
         except WebSocketDisconnect:
-            print("Client disconnected")
+            logging.info("Client disconnected")
             break
         except asyncio.CancelledError:
-            print("Connection was canceled")
+            logging.info("Connection was canceled")
             break
         except Exception as e:
-            print(f"Unexpected error: {e}")
+            logging.error(f"Unexpected error: {e}")
             break
