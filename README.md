@@ -133,7 +133,7 @@ Ensure the following tools are installed on your system:
 ### Frontend Deployment
 
 The frontend is deployed on **Netlify**:  
-**URL**: [Frontend Deployment](https://frontend-deployment-url)
+**URL**: [Frontend Deployment](https://kratijoshi.netlify.app/))
 
 ### Backend Deployment
 
