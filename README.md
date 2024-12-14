@@ -44,7 +44,7 @@ The main goal of this project is to create an intuitive and responsive web-based
 ### Bonus Features
 - **Hosting**:
   - Frontend hosted on [Netlify](https://www.netlify.com).
-  - Backend hosted on [Render](https://render.com) or [Heroku](https://www.heroku.com).
+  - Backend hosted on [Render](https://render.com).
 - **Docker**: The application is containerized using Docker to simplify deployment.
 
 ## Installation
@@ -133,12 +133,12 @@ Ensure the following tools are installed on your system:
 ### Frontend Deployment
 
 The frontend is deployed on **Netlify**:  
-**URL**: [Frontend Deployment](https://kratijoshi.netlify.app/))
+**URL**: [Frontend Deployment](https://kratijoshi.netlify.app/)
 
 ### Backend Deployment
 
-The backend is deployed on **Heroku** or **Render**:  
-**URL**: [Backend Deployment](https://backend-deployment-url)
+The backend is deployed on **Render**:  
+**URL**: [Backend Deployment](https://robot-fleet-monitoring-dashboard-j065.onrender.com)
 
 ---
 
@@ -161,7 +161,7 @@ To run the application locally using Docker:
 
 1. Build the Docker image:
     ```bash
-    docker build -t robot-dashboard .
+    docker build -t robot-dashboard . 
     ```
 
 2. Run the application in Docker:
@@ -169,4 +169,5 @@ To run the application locally using Docker:
     docker run -p 8000:8000 -p 3000:3000 robot-dashboard
     ```
 
----
+--- 
+```
