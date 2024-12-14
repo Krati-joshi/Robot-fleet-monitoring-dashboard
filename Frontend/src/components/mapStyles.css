@@ -1,0 +1,105 @@
+.container {
+    display: flex; 
+    flex-direction: row; 
+    gap: 30px; 
+    justify-content: space-between; 
+    padding: 60px; 
+    width: 100%;  
+    max-width: 1200px; 
+    height: 100vh; 
+    margin: 0 auto; 
+    box-sizing: border-box;
+}
+
+.mapContainer {
+    flex: 1;
+    height: 75%; 
+    width: 70%; 
+    max-width: 900px; 
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden; 
+    transition: all 0.3s ease;
+}
+
+.mapStyle {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+.boxStyle {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(28, 9, 9, 0.1);
+    border: 1px solid #e2e2e2;
+}
+
+.labelStyle {
+    font-weight: bold;
+    color: #db2929;
+}
+
+.valueStyle {
+    color: #0f0606;
+    font-size: 14px;
+}
+
+.custom-icon-red {
+    filter: hue-rotate(0deg);
+}
+
+.custom-icon-blue {
+    filter: hue-rotate(240deg);
+}
+
+.custom-icon-gray {
+    filter: grayscale(100%);
+}
+
+@media (max-width: 1024px) {
+    .container {
+        gap: 20px;
+        padding: 20px; 
+    }
+    .mapContainer {
+        height: 500px; 
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; 
+        gap: 20px;
+        padding: 20px;
+    }
+    .mapContainer {
+        height: 400px; 
+        width: 100%; 
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px; 
+    }
+    .mapContainer {
+        height: 300px; 
+        width: 100%; 
+    }
+    .boxStyle {
+        flex-direction: column; 
+        text-align: left;
+    }
+    .labelStyle {
+        font-size: 12px;
+    }
+    .valueStyle {
+        font-size: 12px;
+    }
+}

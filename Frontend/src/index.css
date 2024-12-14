@@ -1,0 +1,80 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+}
+
+header {
+  width: 100%;
+  background-color: #24292f;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+}
+
+h1 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  height: calc(100vh - 60px);
+  padding: 20px;
+}
+
+.map-container {
+  width: 65%;
+  height: 100%;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+}
+
+.robot-list {
+  width: 30%;
+  height: 100%;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  overflow-y: auto;
+}
+
+.robot-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+}
+
+.robot-item.online {
+  background-color: #e6ffe6;
+}
+
+.robot-item.offline {
+  background-color: #ffe6e6;
+}
+
+.robot-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.robot-item strong {
+  font-weight: bold;
+}
