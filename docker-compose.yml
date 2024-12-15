@@ -1,0 +1,19 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Backend/Dockerfile  
+    ports:
+      - "8000:8000"  
+    volumes:
+      - ./Backend:/app 
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Frontend/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./Frontend:/app
+    mem_limit: 2g
