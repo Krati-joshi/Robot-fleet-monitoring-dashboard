@@ -9,7 +9,8 @@ The main goal of this project is to create an intuitive and responsive web-based
 ## Features
 
 - **Robot List**: Displays details for up to 10 robots with the following information:
-  - **Robot ID (UUID)**
+  -
+ **Robot ID (UUID)**
   - **Online/Offline Status**
   - **Battery Percentage**
   - **CPU Usage**
@@ -155,19 +156,73 @@ The table below shows a sample of the telemetry data for the robots displayed in
 
 ---
 
+Sure! Based on your project and Docker setup, here’s how you can update the **Docker Integration** section in your README file to ensure it reflects your project's Docker configuration.
+
+---
+
 ## Docker Integration
 
-To run the application locally using Docker:
+To run the application locally using Docker, follow these steps:
 
-1. Build the Docker image:
-    ```bash
-    docker build -t robot-dashboard . 
-    ```
+### 1. **Build the Docker image**  
+   First, you need to build the Docker image for both the **frontend** and **backend** parts of the application.
 
-2. Run the application in Docker:
-    ```bash
-    docker run -p 8000:8000 -p 3000:3000 robot-dashboard
-    ```
+   - In your project root directory (where the `Dockerfile` is located), run the following command to build the Docker image:
+     ```bash
+     docker build -t robot-dashboard .
+     ```
 
---- 
-```
+   This will use the Dockerfile to create the image.
+
+### 2. **Run the Docker containers**  
+   Once the image is built, you can run the application in Docker using the following command:
+   ```bash
+   docker run -p 8000:8000 -p 3000:3000 robot-dashboard
+   ```
+
+   This command will:
+   - Map port `8000` of the container to port `8000` on your host machine for the **backend** service.
+   - Map port `3000` of the container to port `3000` on your host machine for the **frontend** service.
+
+### 3. **(Optional) Docker Compose**  
+   If you're using **Docker Compose** to manage multi-container applications (both frontend and backend), you can use the following setup:
+
+   - Create a `docker-compose.yml` file at the root of your project with the following content:
+
+   ```yaml
+   version: '3'
+   services:
+     backend:
+       build:
+         context: ./Backend
+       ports:
+         - "8000:8000"
+     frontend:
+       build:
+         context: ./Frontend
+       ports:
+         - "3000:3000"
+   ```
+
+   - Run the application with Docker Compose:
+   ```bash
+   docker-compose up --build
+   ```
+
+   This will build both the **frontend** and **backend** images and run them in separate containers. The application will be accessible at:
+   - **Frontend**: `http://localhost:3000`
+   - **Backend**: `http://localhost:8000`
+
+### 4. **Stopping the Docker Containers**  
+   To stop the running containers, use the following command:
+   ```bash
+   docker stop $(docker ps -q)
+   ```
+
+   Alternatively, if you're using Docker Compose:
+   ```bash
+   docker-compose down
+   ```
+
+---
+
