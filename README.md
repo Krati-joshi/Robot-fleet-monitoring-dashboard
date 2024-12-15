@@ -72,12 +72,12 @@ Ensure the following tools are installed on your system:
     pip install -r requirements.txt
     ```
 
-3. Start the FastAPI server on port `10000`:
+3. Start the FastAPI server on port `8000`:
     ```bash
-    uvicorn app:app --host 0.0.0.0 --port 10000
+    uvicorn app:app --reload
     ```
 
-   The backend will be available at `http://localhost:10000`.
+   The backend will be available at `http://localhost:8000`.
 
 #### Frontend (React.js)
 
