@@ -1,7 +1,3 @@
-Here is the updated version of your README file without the comment lines:
-
----
-
 # Robot Fleet Monitoring Dashboard
 
 A real-time fleet monitoring dashboard designed to visualize the status and telemetry data of multiple robots. This project displays key robot metrics such as online/offline status, battery percentage, CPU and RAM usage, and location coordinates. It provides real-time updates and visualizes robot locations on an interactive map.
@@ -174,4 +170,4 @@ To run the application locally using Docker:
     ```
 
 --- 
-
+```
