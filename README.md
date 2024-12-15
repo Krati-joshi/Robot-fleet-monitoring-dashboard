@@ -190,7 +190,6 @@ To run the application locally using Docker, follow these steps:
    - Create a `docker-compose.yml` file at the root of your project with the following content:
 
    ```yaml
-   version: '3'
    services:
      backend:
        build:
