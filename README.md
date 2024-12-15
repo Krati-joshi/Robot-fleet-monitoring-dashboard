@@ -1,3 +1,7 @@
+Here is the updated version of your README file without the comment lines:
+
+---
+
 # Robot Fleet Monitoring Dashboard
 
 A real-time fleet monitoring dashboard designed to visualize the status and telemetry data of multiple robots. This project displays key robot metrics such as online/offline status, battery percentage, CPU and RAM usage, and location coordinates. It provides real-time updates and visualizes robot locations on an interactive map.
@@ -142,127 +146,32 @@ The backend is deployed on **Render**:
 
 ---
 
-## Docker Integration
-
-To run the **Robot Fleet Monitoring Dashboard** locally using Docker, follow the steps below:
-
-### Prerequisites
-
-Ensure that Docker is installed on your system. If you don't have Docker installed, follow the installation guide from [Docker's official site](https://www.docker.com/get-started).
-
-### Steps for Running Locally
-
-1. **Clone the Repository** (if you haven’t already):
-   ```bash
-   git clone <your-repo-url>
-   cd <your-project-folder>
-   ```
-
-2. **Create Dockerfiles** (if not already created for both frontend and backend):
-
-   #### Backend Dockerfile (`backend/Dockerfile`)
-
-   ```Dockerfile
-   FROM python:3.8-slim
-   WORKDIR /app
-   COPY requirements.txt /app/
-   RUN pip install --no-cache-dir -r requirements.txt
-   COPY . /app/
-   EXPOSE 8000
-   CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
-   ```
-
-   #### Frontend Dockerfile (`frontend/Dockerfile`)
-
-   ```Dockerfile
-   FROM node:16
-   WORKDIR /app
-   COPY package*.json ./
-   RUN npm install
-   COPY . /app/
-   EXPOSE 3000
-   CMD ["npm", "start"]
-   ```
-
-3. **Create a Docker Compose File** (`docker-compose.yml`):
-
-   ```yaml
-   version: '3.8'
-
-   services:
-     backend:
-       build:
-         context: ./backend
-       ports:
-         - "8000:8000"
-       environment:
-         - PYTHONUNBUFFERED=1
-       volumes:
-         - ./backend:/app
-       depends_on:
-         - db
-
-     frontend:
-       build:
-         context: ./frontend
-       ports:
-         - "3000:3000"
-       environment:
-         - REACT_APP_API_URL=http://backend:8000
-       volumes:
-         - ./frontend:/app
-       depends_on:
-         - backend
-
-     db:
-       image: postgres:13
-       environment:
-         POSTGRES_USER: user
-         POSTGRES_PASSWORD: password
-         POSTGRES_DB: robot_db
-       volumes:
-         - ./data/db:/var/lib/postgresql/data
-       ports:
-         - "5432:5432"
-   ```
-
-4. **Build and Start Containers**:
-
-   After creating the necessary Dockerfiles and the `docker-compose.yml` file, use the following commands to build and start both containers (frontend, backend, and database):
-
-   ```bash
-   docker-compose up --build
-   ```
-
-5. **Access the Application**:
-
-   - The **frontend** will be accessible at [http://localhost:3000](http://localhost:3000).
-   - The **backend** (API server) will be accessible at [http://localhost:8000](http://localhost:8000).
-
-### Stopping the Containers
-
-To stop the containers after you are done, use:
-
-```bash
-docker-compose down
-```
-
-This will stop and remove all the containers, networks, and volumes created by `docker-compose`.
-
----
-
 ## Telemetry Data Table
 
 The table below shows a sample of the telemetry data for the robots displayed in the dashboard:
 
-| Robot ID (UUID)    | Status      | Battery (%) | CPU Usage (%) | RAM Consumption (%) | Location Coordinates       | Last Updated          |
-|--------------------|-------------|-------------|---------------|----------------------|----------------------------|-----------------------|
-| 3b6b3e99-2d64-4a33 | Online      | 85          | 34            | 58                   | (25.276987, 55.296249)      | 2024-12-15 12:34:56   |
-| 39fa663d-02f0-4a07 | Offline     | 10          | 90            | 72                   | (25.276987, 55.296249)      | 2024-12-15 12:34:56   |
-| 2f828b3f-2d56-4c29 | Low Battery | 18          | 50            | 45                   | (25.276987, 55.296249)      | 2024-12-15 12:
-
-34:56   |
+| Robot ID (UUID)    | Status      | Battery (%) | CPU Usage (%) | RAM Consumption (%) | Location Coordinates       | Last Updated        |
+|--------------------|-------------|-------------|---------------|----------------------|---------------------------|---------------------|
+| 123e4567-e89b-12d3-a456-426614174000 | Online      | 95          | 30            | 45                   | (34.0522, -118.2437)      | 2024-12-14 12:45:30 |
+| 123e4567-e89b-12d3-a456-426614174001 | Offline     | 0           | 0             | 0                    | (34.0522, -118.2437)      | 2024-12-14 12:45:00 |
+| 123e4567-e89b-12d3-a456-426614174002 | Low Battery | 18          | 25            | 60                   | (40.7128, -74.0060)       | 2024-12-14 12:45:20 |
+| 123e4567-e89b-12d3-a456-426614174003 | Online      | 78          | 45            | 70                   | (51.5074, -0.1278)        | 2024-12-14 12:45:10 |
 
 ---
 
+## Docker Integration
+
+To run the application locally using Docker:
+
+1. Build the Docker image:
+    ```bash
+    docker build -t robot-dashboard . 
+    ```
+
+2. Run the application in Docker:
+    ```bash
+    docker run -p 8000:8000 -p 3000:3000 robot-dashboard
+    ```
+
+--- 
 
