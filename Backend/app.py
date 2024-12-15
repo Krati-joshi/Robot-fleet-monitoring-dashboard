@@ -6,6 +6,7 @@ from datetime import datetime
 import json
 import asyncio
 import logging
+from contextlib import asynccontextmanager
 
 app = FastAPI()
 
@@ -57,6 +58,14 @@ def load_fake_data():
         logging.error(f"Unexpected error while loading data: {e}")
         return []
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logging.info("Application is starting up...")
+    yield
+    logging.info("Application is shutting down...")
+
+app = FastAPI(lifespan=lifespan)
+
 @app.get("/")
 def read_root():
     return {"message": "Robot Fleet Monitoring API is up and running!"}
@@ -74,7 +83,7 @@ def get_robots():
         robots = convert_datetime_to_string(robots)
         return robots
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=f"Error occurred: {str(e)}")
 
 @app.websocket("/ws/robots")
 async def websocket_endpoint(websocket: WebSocket):
