@@ -8,7 +8,15 @@ import asyncio
 import logging
 from contextlib import asynccontextmanager
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logging.info("Application is starting up...")
+    yield
+    logging.info("Application is shutting down...")
+
+app = FastAPI(lifespan=lifespan)
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -20,6 +28,7 @@ app.add_middleware(
 
 logging.basicConfig(level=logging.INFO)
 
+
 class Robot(BaseModel):
     robot_id: str
     online_offline: bool
@@ -29,11 +38,15 @@ class Robot(BaseModel):
     last_updated: str
     location_coordinates: List[float]
 
+
 def convert_datetime_to_string(data):
+    if not data:
+        return data
     for robot in data:
         if isinstance(robot['last_updated'], datetime):
             robot['last_updated'] = robot['last_updated'].isoformat()
     return data
+
 
 def load_fake_data():
     try:
@@ -50,25 +63,19 @@ def load_fake_data():
             return data
     except FileNotFoundError:
         logging.error("Error: fake_robot_data.json not found.")
-        return []
+        raise HTTPException(status_code=404, detail="Fake robot data file not found.")
     except json.JSONDecodeError:
         logging.error("Error: JSON decoding error.")
-        return []
+        raise HTTPException(status_code=400, detail="Error decoding the fake robot data.")
     except Exception as e:
         logging.error(f"Unexpected error while loading data: {e}")
-        return []
+        raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    logging.info("Application is starting up...")
-    yield
-    logging.info("Application is shutting down...")
-
-app = FastAPI(lifespan=lifespan)
 
 @app.get("/")
 def read_root():
     return {"message": "Robot Fleet Monitoring API is up and running!"}
+
 
 @app.head("/")
 def head_root():
@@ -85,9 +92,11 @@ def get_robots():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error occurred: {str(e)}")
 
+
 @app.websocket("/ws/robots")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
+    logging.info("WebSocket connection established")
     while True:
         try:
             robots = load_fake_data()
@@ -95,6 +104,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 await websocket.send_json({"error": "No robot data available"})
                 break
             robots = convert_datetime_to_string(robots)
+            logging.info("Sending robot data to client")
             await websocket.send_json(robots)
             await asyncio.sleep(5)
         except WebSocketDisconnect:
@@ -105,4 +115,5 @@ async def websocket_endpoint(websocket: WebSocket):
             break
         except Exception as e:
             logging.error(f"Unexpected error: {e}")
+            await websocket.send_json({"error": f"Unexpected error: {str(e)}"})
             break
